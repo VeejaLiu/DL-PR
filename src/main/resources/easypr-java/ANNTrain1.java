@@ -40,8 +40,8 @@ public class ANNTrain1 {
         Mat samples = new Mat(); // 使用push_back，行数列数不能赋初始值
         Vector<Integer> trainingLabels = new Vector<Integer>();
         // 加载数字及字母字符
-        for (int i = 0; i < Constant.numCharacter; i++) {
-            String str = DEFAULT_PATH + "learn/" + Constant.strCharacters[i];
+        for (int i = 0; i < Constant.NUM_CHARACTER; i++) {
+            String str = DEFAULT_PATH + "learn/" + Constant.STR_CHARACTERS[i];
             Vector<String> files = new Vector<String>();
             FileUtil.getFiles(str, files);
 
@@ -56,8 +56,8 @@ public class ANNTrain1 {
         }
 
         // 加载汉字字符
-        for (int i = 0; i < Constant.strChinese.length; i++) {
-            String str = DEFAULT_PATH + "learn/" + Constant.strChinese[i];
+        for (int i = 0; i < Constant.STR_CHINESE.length; i++) {
+            String str = DEFAULT_PATH + "learn/" + Constant.STR_CHINESE[i];
             Vector<String> files = new Vector<String>();
             FileUtil.getFiles(str, files);
 
@@ -67,14 +67,14 @@ public class ANNTrain1 {
                 // System.err.println(files.get(j));   // 文件名不能包含中文
                 Mat f = CoreFunc.features(img, _predictsize);
                 samples.push_back(f);
-                trainingLabels.add(i + Constant.numCharacter);
+                trainingLabels.add(i + Constant.NUM_CHARACTER);
             }
         }
 
 
         //440   vhist.length + hhist.length + lowData.cols() * lowData.rows();
         // CV_32FC1 CV_32SC1 CV_32F
-        Mat classes = new Mat(trainingLabels.size(), Constant.numAll, CV_32F);
+        Mat classes = new Mat(trainingLabels.size(), Constant.NUM_ALL, CV_32F);
         
         float[] labels = new float[trainingLabels.size()];
         for (int i = 0; i < labels.length; ++i) {
@@ -117,7 +117,7 @@ public class ANNTrain1 {
         
         for (String string : files) {
             Mat img = opencv_imgcodecs.imread(string);
-            Mat f = CoreFunc.features(img, Constant.predictSize);
+            Mat f = CoreFunc.features(img, Constant.PREDICT_SIZE);
             
             // 140 predictSize = 10; vhist.length + hhist.length + lowData.cols() * lowData.rows();
             // 440 predictSize = 20;
@@ -128,10 +128,10 @@ public class ANNTrain1 {
             int index = (int) ann.predict(f, output, 0);
             
             String result = "";
-            if (index < Constant.numCharacter) {
-                result = String.valueOf(Constant.strCharacters[index]);
+            if (index < Constant.NUM_CHARACTER) {
+                result = String.valueOf(Constant.STR_CHARACTERS[index]);
             } else {
-                String s = Constant.strChinese[index - Constant.numCharacter];
+                String s = Constant.STR_CHINESE[index - Constant.NUM_CHARACTER];
                 result = Constant.KEY_CHINESE_MAP.get(s);   // 编码转中文
             }
             System.err.println(string + "===>" + result);
@@ -148,7 +148,7 @@ public class ANNTrain1 {
         // 这里演示只训练model文件夹下的ann.xml，此模型是一个predictSize=10,neurons=40的ANN模型
         // 可根据需要训练不同的predictSize或者neurons的ANN模型
         // 根据机器的不同，训练时间不一样，但一般需要10分钟左右，所以慢慢等一会吧。
-        annT.train(Constant.predictSize, Constant.neurons);
+        annT.train(Constant.PREDICT_SIZE, Constant.NEURONS);
 
         annT.predict();
         

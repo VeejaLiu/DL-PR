@@ -1,14 +1,14 @@
 package com.veeja.config;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
 import lombok.extern.slf4j.Slf4j;
-
 
 /**
  * 配置自动启动浏览器
- * 
+ *
+ * @author liuweijia
  */
 @Slf4j
 @Component
@@ -20,10 +20,10 @@ public class CommandRunner implements CommandLineRunner {
     @Override
     public void run(String... args) {
         try {
-        	String os = System.getProperty("os.name").toLowerCase();
-        	if(os.contains("windows")) {
-        		Runtime.getRuntime().exec("cmd   /c   start   http://localhost:16666");
-        	}
+            String os = System.getProperty("os.name").toLowerCase();
+            if (os.contains("windows")) {
+                Runtime.getRuntime().exec("cmd /c start http://localhost:16666");
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             log.error("打开默认浏览器异常", ex);

@@ -27,8 +27,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 
 
-
-
+/**
+ * @author liuweijia
+ */
 @Api(description = "文件管理")
 @RestController
 @RequestMapping("/file")
@@ -37,20 +38,21 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    
+
     /**
      * 加载文件树结构
      * 输入：文件夹路径，缺省值：D:\\PlateDetect\\ 文件类型，缺省值：png,jpg,jpeg
      * 输出：当前目录下第一层级文件的list
+     *
      * @param dir
      * @return
      */
-    @ApiOperation(value = "获取文件结构", notes = "")
+    @ApiOperation(value = "获取文件结构")
     @ApiImplicitParam(name = "dir", value = "文件夹路径", required = true, paramType = "query", dataType = "String")
     @RequestMapping(value = "/getFileTreeByDir", method = RequestMethod.GET)
     public Object getFileTreeByDir(String rootPath, String dir, String typeFilter) {
         try {
-            if(null != dir) {
+            if (null != dir) {
                 dir = URLDecoder.decode(dir, "utf-8");
             }
         } catch (UnsupportedEncodingException e) {
@@ -58,10 +60,11 @@ public class FileController {
         }
         return fileService.getFileTreeByDir(rootPath, dir, typeFilter);
     }
-    
-    
+
+
     /**
      * 预览图片文件
+     *
      * @param filePath
      * @param response
      * @return
@@ -69,7 +72,7 @@ public class FileController {
      */
     @RetExclude
     @ApiOperation(value = "预览文件", notes = "根据路径，直接读取盘符文件; 返回输出流")
-    @GetMapping(value = "/readFile", produces= {"image/jpeg"})
+    @GetMapping(value = "/readFile", produces = {"image/jpeg"})
     public ResponseEntity<InputStreamResource> readFile(String filePath, HttpServletResponse response) throws IOException {
         try {
             filePath = URLDecoder.decode(filePath, "utf-8");
@@ -82,9 +85,5 @@ public class FileController {
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<InputStreamResource>(isr, headers, HttpStatus.OK);
     }
-    
-    
-    
-    
-    
+
 }

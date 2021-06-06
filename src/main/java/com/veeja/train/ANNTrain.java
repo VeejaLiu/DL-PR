@@ -63,9 +63,9 @@ public class ANNTrain {
         Set<String> sampleDir = Sets.newHashSet();
 
         // 加载数字及字母字符
-        for (int i = 0; i < Constant.numCharacter; i++) {
+        for (int i = 0; i < Constant.NUM_CHARACTER; i++) {
             sampleDir.clear();
-            sampleDir.add(DEFAULT_PATH + "chars_blue_new/" + Constant.strCharacters[i]);
+            sampleDir.add(DEFAULT_PATH + "chars_blue_new/" + Constant.STR_CHARACTERS[i]);
 
             Vector<String> files = new Vector<String>();
             for (String str : sampleDir) {
@@ -85,7 +85,7 @@ public class ANNTrain {
 
         //440   vhist.length + hhist.length + lowData.cols() * lowData.rows();
         // CV_32FC1 CV_32SC1 CV_32F
-        Mat classes = Mat.zeros(trainingLabels.size(), Constant.strCharacters.length, CvType.CV_32F);
+        Mat classes = Mat.zeros(trainingLabels.size(), Constant.STR_CHARACTERS.length, CvType.CV_32F);
 
         float[] labels = new float[trainingLabels.size()];
         for (int i = 0; i < labels.length; ++i) {
@@ -128,8 +128,8 @@ public class ANNTrain {
 
         Set<String> sampleDir = Sets.newHashSet();
         // 遍历测试样本下的所有文件，计算预测准确率
-        for (int i = 0; i < Constant.strCharacters.length; i++) {
-            char c = Constant.strCharacters[i];
+        for (int i = 0; i < Constant.STR_CHARACTERS.length; i++) {
+            char c = Constant.STR_CHARACTERS[i];
             sampleDir.clear();
             sampleDir.add(DEFAULT_PATH + "chars_blue_new/" + c);
             Vector<String> files = new Vector<String>();
@@ -139,13 +139,13 @@ public class ANNTrain {
             // 遍历每一张图片
             for (String filePath : files) {
                 Mat img = Imgcodecs.imread(filePath, 0);
-                Mat f = PlateUtil.features(img, Constant.predictSize);
+                Mat f = PlateUtil.features(img, Constant.PREDICT_SIZE);
                 int index = 0;
                 double maxVal = -2;
-                Mat output = new Mat(1, Constant.strCharacters.length, CvType.CV_32F);
+                Mat output = new Mat(1, Constant.STR_CHARACTERS.length, CvType.CV_32F);
                 // 预测结果
                 ann.predict(f, output);
-                for (int j = 0; j < Constant.strCharacters.length; j++) {
+                for (int j = 0; j < Constant.STR_CHARACTERS.length; j++) {
                     double val = output.get(0, j)[0];
                     if (val > maxVal) {
                         maxVal = val;
@@ -165,7 +165,7 @@ public class ANNTrain {
                 }
                 */
 
-                String result = String.valueOf(Constant.strCharacters[index]);
+                String result = String.valueOf(Constant.STR_CHARACTERS[index]);
                 if (result.equals(String.valueOf(c))) {
                     correct++;
                 } else {
@@ -200,7 +200,7 @@ public class ANNTrain {
         // 可根据需要训练不同的predictSize或者neurons的ANN模型
         // 根据机器的不同，训练时间不一样，但一般需要10分钟左右，所以慢慢等一会吧
 
-        annT.train(Constant.predictSize, Constant.neurons);
+        annT.train(Constant.PREDICT_SIZE, Constant.NEURONS);
         // annT.predict();
         Date endDate = new Date();
         int useTime = endDate.compareTo(startDate);
