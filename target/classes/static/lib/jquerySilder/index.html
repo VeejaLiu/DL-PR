@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>silder</title>
+    <link rel="stylesheet" href="./silder.css">
+    <style>
+        .a,.b,.c {
+            width: 500px;
+            margin-top: 100px;
+            margin-left: 100px;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="a"></div>
+    <div class="b"></div>
+    <div class="c"></div>
+</body>
+<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script src="./silder.js"></script>
+<script>
+    ZUI.silder({
+        elem: '.a',
+        color: '#1E9FFF',
+        pos: '25%',
+        showNum: true,
+        count: 50,
+        disable: false,
+        callBackMove: function (num) {
+            // console.log('move', num);
+        },
+        callBackMouseup: function (num) {
+            // console.log('up', num);
+        }
+    }) 
+    ZUI.silder({
+        elem: '.b',
+        color: 'red',
+        pos: '35%',
+        showNum: true,
+        count: 100,
+        disable: false,
+        callBackMove: function (num) {
+            // console.log('move', num);
+        },
+        callBackMouseup: function (num) {
+            // console.log('up', num);
+        }
+    })
+    ZUI.silder({
+        elem: '.c',
+        color: 'green',
+        pos: '35%',
+        showNum: false,
+        count: 100,
+        disable: true,
+        callBackMove: function (num) {
+            // console.log('move', num);
+        },
+        callBackMouseup: function (num) {
+            // console.log('up', num);
+        }
+    })
+</script>
+
+</html>

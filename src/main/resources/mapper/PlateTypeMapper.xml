@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.veeja.mapper.PlateTypeMapper">
+    
+    <resultMap id="BaseResultMap" type="com.veeja.entity.PlateTypeEntity">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+        <result column="plate_color" jdbcType="VARCHAR" property="plateColor" />
+        <result column="char_color" jdbcType="VARCHAR" property="charColor" />
+        <result column="char_count" jdbcType="INTEGER" property="charCount" />
+        <result column="ch_index" jdbcType="VARCHAR" property="chIndex" />
+        <result column="line_count" jdbcType="INTEGER" property="lineCount" />
+        <result column="height_px" jdbcType="INTEGER" property="heightPx" />
+        <result column="width_px" jdbcType="INTEGER" property="widthPx" />
+        <result column="height_gb" jdbcType="INTEGER" property="heightGb" />
+        <result column="width_gb" jdbcType="INTEGER" property="widthGb" />
+        <result column="plate_min_h" jdbcType="INTEGER" property="plateMinH" />
+        <result column="plate_max_h" jdbcType="INTEGER" property="plateMaxH" />
+        <result column="char_min_h" jdbcType="INTEGER" property="charMinH" />
+        <result column="char_max_h" jdbcType="INTEGER" property="charMaxH" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+        <result column="creator_id" jdbcType="INTEGER" property="creatorId" />
+        <result column="version" jdbcType="INTEGER" property="version" />
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    </resultMap>
+    
+    <sql id="Base_Column_List">
+        id, type_name, plate_color, char_color, char_count, ch_index, line_count, height_px, 
+        width_px, height_gb, width_gb, plate_min_h, plate_max_h, char_min_h, char_max_h, 
+        remark, create_time, creator_id, version, del_flag
+    </sql>
+    
+    <sql id="Base_Where_Clause">
+        <where>
+            <if test="typeName != null">
+                 and type_name = #{typeName,jdbcType=VARCHAR}
+            </if>
+            <if test="plateColor != null">
+                 and plate_color = #{plateColor,jdbcType=VARCHAR}
+            </if>
+            <if test="charColor != null">
+                 and char_color = #{charColor,jdbcType=VARCHAR}
+            </if>
+            <if test="charCount != null">
+                 and char_count = #{charCount,jdbcType=INTEGER}
+            </if>
+            <if test="chIndex != null">
+                 and ch_index = #{chIndex,jdbcType=VARCHAR}
+            </if>
+            <if test="lineCount != null">
+                 and line_count = #{lineCount,jdbcType=INTEGER}
+            </if>
+            <if test="heightPx != null">
+                 and height_px = #{heightPx,jdbcType=INTEGER}
+            </if>
+            <if test="widthPx != null">
+                 and width_px = #{widthPx,jdbcType=INTEGER}
+            </if>
+            <if test="heightGb != null">
+                 and height_gb = #{heightGb,jdbcType=INTEGER}
+            </if>
+            <if test="widthGb != null">
+                 and width_gb = #{widthGb,jdbcType=INTEGER}
+            </if>
+            <if test="plateMinH != null">
+                 and plate_min_h = #{plateMinH,jdbcType=INTEGER}
+            </if>
+            <if test="plateMaxH != null">
+                 and plate_max_h = #{plateMaxH,jdbcType=INTEGER}
+            </if>
+            <if test="charMinH != null">
+                 and char_min_h = #{charMinH,jdbcType=INTEGER}
+            </if>
+            <if test="charMaxH != null">
+                 and char_max_h = #{charMaxH,jdbcType=INTEGER}
+            </if>
+            <if test="remark != null">
+                 and remark = #{remark,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                 and create_time = #{createTime,jdbcType=VARCHAR}
+            </if>
+            <if test="creatorId != null">
+                 and creator_id = #{creatorId,jdbcType=INTEGER}
+            </if>
+            and del_flag = 0
+        </where>
+    </sql>
+    
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from t_plate_type
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="selectByCondition" resultMap="BaseResultMap">
+        select id, type_name, plate_color, char_color, char_count, ch_index, line_count, 
+        height_px, width_px, height_gb, width_gb, plate_min_h, plate_max_h, char_min_h, char_max_h, 
+        remark, create_time, creator_id, version, del_flag
+        from t_plate_type
+        <include refid="Base_Where_Clause" />
+        order by id desc
+    </select>
+    
+    <insert id="insert" parameterType="com.veeja.entity.PlateTypeEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            MYSQL
+        </selectKey>
+        insert into t_plate_type (type_name, plate_color, char_color, 
+            char_count, ch_index, line_count, 
+            height_px, width_px, height_gb, 
+            width_gb, plate_min_h, plate_max_h, 
+            char_min_h, char_max_h, remark, 
+            create_time, creator_id)
+        values (#{typeName,jdbcType=VARCHAR}, #{plateColor,jdbcType=VARCHAR}, #{charColor,jdbcType=VARCHAR}, 
+            #{charCount,jdbcType=INTEGER}, #{chIndex,jdbcType=VARCHAR}, #{lineCount,jdbcType=INTEGER}, 
+            #{heightPx,jdbcType=INTEGER}, #{widthPx,jdbcType=INTEGER}, #{heightGb,jdbcType=INTEGER}, 
+            #{widthGb,jdbcType=INTEGER}, #{plateMinH,jdbcType=INTEGER}, #{plateMaxH,jdbcType=INTEGER}, 
+            #{charMinH,jdbcType=INTEGER}, #{charMaxH,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
+            #{createTime,jdbcType=VARCHAR}, #{creatorId,jdbcType=INTEGER})
+    </insert>
+    
+    <insert id="insertSelective" parameterType="com.veeja.entity.PlateTypeEntity">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            MYSQL
+        </selectKey>
+        insert into t_plate_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typeName != null">
+                type_name,
+            </if>
+            <if test="plateColor != null">
+                plate_color,
+            </if>
+            <if test="charColor != null">
+                char_color,
+            </if>
+            <if test="charCount != null">
+                char_count,
+            </if>
+            <if test="chIndex != null">
+                ch_index,
+            </if>
+            <if test="lineCount != null">
+                line_count,
+            </if>
+            <if test="heightPx != null">
+                height_px,
+            </if>
+            <if test="widthPx != null">
+                width_px,
+            </if>
+            <if test="heightGb != null">
+                height_gb,
+            </if>
+            <if test="widthGb != null">
+                width_gb,
+            </if>
+            <if test="plateMinH != null">
+                plate_min_h,
+            </if>
+            <if test="plateMaxH != null">
+                plate_max_h,
+            </if>
+            <if test="charMinH != null">
+                char_min_h,
+            </if>
+            <if test="charMaxH != null">
+                char_max_h,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="creatorId != null">
+                creator_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typeName != null">
+                #{typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="plateColor != null">
+                #{plateColor,jdbcType=VARCHAR},
+            </if>
+            <if test="charColor != null">
+                #{charColor,jdbcType=VARCHAR},
+            </if>
+            <if test="charCount != null">
+                #{charCount,jdbcType=INTEGER},
+            </if>
+            <if test="chIndex != null">
+                #{chIndex,jdbcType=VARCHAR},
+            </if>
+            <if test="lineCount != null">
+                #{lineCount,jdbcType=INTEGER},
+            </if>
+            <if test="heightPx != null">
+                #{heightPx,jdbcType=INTEGER},
+            </if>
+            <if test="widthPx != null">
+                #{widthPx,jdbcType=INTEGER},
+            </if>
+            <if test="heightGb != null">
+                #{heightGb,jdbcType=INTEGER},
+            </if>
+            <if test="widthGb != null">
+                #{widthGb,jdbcType=INTEGER},
+            </if>
+            <if test="plateMinH != null">
+                #{plateMinH,jdbcType=INTEGER},
+            </if>
+            <if test="plateMaxH != null">
+                #{plateMaxH,jdbcType=INTEGER},
+            </if>
+            <if test="charMinH != null">
+                #{charMinH,jdbcType=INTEGER},
+            </if>
+            <if test="charMaxH != null">
+                #{charMaxH,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorId != null">
+                #{creatorId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    
+    <update id="updateByPrimaryKeySelective" parameterType="com.veeja.entity.PlateTypeEntity">
+        update t_plate_type
+        <set>
+            <if test="typeName != null">
+                type_name = #{typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="plateColor != null">
+                plate_color = #{plateColor,jdbcType=VARCHAR},
+            </if>
+            <if test="charColor != null">
+                char_color = #{charColor,jdbcType=VARCHAR},
+            </if>
+            <if test="charCount != null">
+                char_count = #{charCount,jdbcType=INTEGER},
+            </if>
+            <if test="chIndex != null">
+                ch_index = #{chIndex,jdbcType=VARCHAR},
+            </if>
+            <if test="lineCount != null">
+                line_count = #{lineCount,jdbcType=INTEGER},
+            </if>
+            <if test="heightPx != null">
+                height_px = #{heightPx,jdbcType=INTEGER},
+            </if>
+            <if test="widthPx != null">
+                width_px = #{widthPx,jdbcType=INTEGER},
+            </if>
+            <if test="heightGb != null">
+                height_gb = #{heightGb,jdbcType=INTEGER},
+            </if>
+            <if test="widthGb != null">
+                width_gb = #{widthGb,jdbcType=INTEGER},
+            </if>
+            <if test="plateMinH != null">
+                plate_min_h = #{plateMinH,jdbcType=INTEGER},
+            </if>
+            <if test="plateMaxH != null">
+                plate_max_h = #{plateMaxH,jdbcType=INTEGER},
+            </if>
+            <if test="charMinH != null">
+                char_min_h = #{charMinH,jdbcType=INTEGER},
+            </if>
+            <if test="charMaxH != null">
+                char_max_h = #{charMaxH,jdbcType=INTEGER},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="creatorId != null">
+                creator_id = #{creatorId,jdbcType=INTEGER},
+            </if>
+             version = version + 1, 
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+          and version = #{version, jdbcType=INTEGER} 
+    </update>
+    
+    <update id="updateByPrimaryKey" parameterType="com.veeja.entity.PlateTypeEntity">
+        update t_plate_type
+        set type_name = #{typeName,jdbcType=VARCHAR},
+            plate_color = #{plateColor,jdbcType=VARCHAR},
+            char_color = #{charColor,jdbcType=VARCHAR},
+            char_count = #{charCount,jdbcType=INTEGER},
+            ch_index = #{chIndex,jdbcType=VARCHAR},
+            line_count = #{lineCount,jdbcType=INTEGER},
+            height_px = #{heightPx,jdbcType=INTEGER},
+            width_px = #{widthPx,jdbcType=INTEGER},
+            height_gb = #{heightGb,jdbcType=INTEGER},
+            width_gb = #{widthGb,jdbcType=INTEGER},
+            plate_min_h = #{plateMinH,jdbcType=INTEGER},
+            plate_max_h = #{plateMaxH,jdbcType=INTEGER},
+            char_min_h = #{charMinH,jdbcType=INTEGER},
+            char_max_h = #{charMaxH,jdbcType=INTEGER},
+            remark = #{remark,jdbcType=VARCHAR},
+            creator_id = #{creatorId,jdbcType=INTEGER},
+            version =  version + 1 
+        where id = #{id,jdbcType=INTEGER}
+          and version = #{version, jdbcType=INTEGER} 
+    </update>
+    
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update t_plate_type set del_flag = 1 
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>
