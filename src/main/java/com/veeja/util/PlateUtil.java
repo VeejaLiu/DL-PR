@@ -91,7 +91,7 @@ public class PlateUtil {
      * @return
      */
     public static Boolean isPlate(String str) {
-        Pattern p = Pattern.compile(Constant.plateReg);
+        Pattern p = Pattern.compile(Constant.PLATE_REG);
         Boolean bl = false;
         Matcher m = p.matcher(str);
         while (m.find()) {
@@ -588,24 +588,24 @@ public class PlateUtil {
      * @return
      */
     public static void predict(Mat img, PlateColor color, PlateRecoResult chars) {
-        Mat f = PlateUtil.features(img, Constant.predictSize);
+        Mat f = PlateUtil.features(img, Constant.PREDICT_SIZE);
 
         int index = 0;
         Double maxVal = -2D;
-        Mat output = new Mat(1, Constant.strCharacters.length, CvType.CV_32F);
+        Mat output = new Mat(1, Constant.STR_CHARACTERS.length, CvType.CV_32F);
         if (color.equals(PlateColor.GREEN)) {
 //            ann_green.predict(f, output); // 预测结果
         } else {
             ann_blue.predict(f, output); // 预测结果
         }
-        for (int j = 0; j < Constant.strCharacters.length; j++) {
+        for (int j = 0; j < Constant.STR_CHARACTERS.length; j++) {
             double val = output.get(0, j)[0];
             if (val > maxVal) {
                 maxVal = val;
                 index = j;
             }
         }
-        String result = String.valueOf(Constant.strCharacters[index]);
+        String result = String.valueOf(Constant.STR_CHARACTERS[index]);
         chars.setChars(result);
         chars.setConfi(maxVal);
     }
@@ -617,20 +617,20 @@ public class PlateUtil {
      * @return
      */
     public static void predictChinese(Mat img, PlateRecoResult chinese) {
-        Mat f = PlateUtil.features(img, Constant.predictSize);
+        Mat f = PlateUtil.features(img, Constant.PREDICT_SIZE);
         int index = 0;
         Double maxVal = -2D;
 
-        Mat output = new Mat(1, Constant.strChinese.length, CvType.CV_32F);
+        Mat output = new Mat(1, Constant.STR_CHINESE.length, CvType.CV_32F);
         ann_cn.predict(f, output); // 预测结果
-        for (int j = 0; j < Constant.strChinese.length; j++) {
+        for (int j = 0; j < Constant.STR_CHINESE.length; j++) {
             double val = output.get(0, j)[0];
             if (val > maxVal) {
                 maxVal = val;
                 index = j;
             }
         }
-        String result = Constant.strChinese[index];
+        String result = Constant.STR_CHINESE[index];
         chinese.setChars(Constant.KEY_CHINESE_MAP.get(result));
         chinese.setConfi(maxVal);
     }

@@ -11,13 +11,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * druid连接池的配置,配置如何处理慢sql，
+ * druid连接池的配置,配置如何处理慢sql
+ *
+ * @author liuweijia
  */
 @Configuration
 public class DruidConfig {
 
-    // 这个注解读取配置文件前缀为prefix的配置，将外部的配置文件与这里绑定
-    // 容器的开启与关闭
+    /**
+     * 这个注解读取配置文件前缀为prefix的配置，将外部的配置文件与这里绑定
+     * 容器的开启与关闭
+     */
     @ConfigurationProperties(prefix = "spring.druid")
     @Bean(initMethod = "init", destroyMethod = "close")
     public DruidDataSource dataSource() {
@@ -26,8 +30,10 @@ public class DruidConfig {
         return dataSource;
     }
 
-    // bean注解，成为spring的bean，利用filter将慢sql的日志打印出来
-    //@Bean
+    /**
+     * bean注解，成为spring的bean，利用filter将慢sql的日志打印出来
+     * // @Bean
+     */
     public Filter statFilter() {
         StatFilter statFilter = new StatFilter();
         // 多长时间定义为慢sql，这里定义为5s
@@ -39,7 +45,9 @@ public class DruidConfig {
         return statFilter;
     }
 
-    // 这是配置druid的监控
+    /**
+     * 这是配置druid的监控
+     */
     @Bean
     public ServletRegistrationBean servletRegistrationBean() {
         return new ServletRegistrationBean(new StatViewServlet(), "/druid/*");

@@ -47,9 +47,9 @@ public class CnANNTrain {
         Set<String> sampleDir = Sets.newHashSet();;
 
         // 加载汉字字符
-        for (int i = 0; i < Constant.strChinese.length; i++) {
+        for (int i = 0; i < Constant.STR_CHINESE.length; i++) {
             sampleDir.clear();
-            sampleDir.add(DEFAULT_PATH + "chars_blue_new/" + Constant.strChinese[i]);
+            sampleDir.add(DEFAULT_PATH + "chars_blue_new/" + Constant.STR_CHINESE[i]);
             Vector<String> files = new Vector<String>();
             for (String str : sampleDir) {
                 FileUtil.getFiles(str, files);
@@ -66,7 +66,7 @@ public class CnANNTrain {
 
         //440   vhist.length + hhist.length + lowData.cols() * lowData.rows();
         // CV_32FC1 CV_32SC1 CV_32F
-        Mat classes = Mat.zeros(trainingLabels.size(), Constant.strChinese.length, CvType.CV_32F);
+        Mat classes = Mat.zeros(trainingLabels.size(), Constant.STR_CHINESE.length, CvType.CV_32F);
 
         float[] labels = new float[trainingLabels.size()];
         for (int i = 0; i < labels.length; ++i) {
@@ -107,9 +107,9 @@ public class CnANNTrain {
         Set<String> sampleDir = Sets.newHashSet();
         
         // 遍历测试样本下的所有文件，计算预测准确率
-        for (int i = 0; i < Constant.strChinese.length; i++) {
+        for (int i = 0; i < Constant.STR_CHINESE.length; i++) {
 
-            String strChinese = Constant.strChinese[i];
+            String strChinese = Constant.STR_CHINESE[i];
             sampleDir.clear();
              sampleDir.add(DEFAULT_PATH + "chars_blue_new/" + strChinese);
 
@@ -121,14 +121,14 @@ public class CnANNTrain {
 
             for (String filePath : files) {
                 Mat img = Imgcodecs.imread(filePath, 0);
-                Mat f = PlateUtil.features(img, Constant.predictSize);
+                Mat f = PlateUtil.features(img, Constant.PREDICT_SIZE);
 
                 int index = 0;
                 double maxVal = -2;
 
-                Mat output = new Mat(1, Constant.strChinese.length, CvType.CV_32F);
+                Mat output = new Mat(1, Constant.STR_CHINESE.length, CvType.CV_32F);
                 ann.predict(f, output);  // 预测结果
-                for (int j = 0; j < Constant.strChinese.length; j++) {
+                for (int j = 0; j < Constant.STR_CHINESE.length; j++) {
                     double val = output.get(0, j)[0];
                     if (val > maxVal) {
                         maxVal = val;
@@ -147,7 +147,7 @@ public class CnANNTrain {
                     }
                 }*/
 
-                String result = Constant.strChinese[index];
+                String result = Constant.STR_CHINESE[index];
 
                 if(result.equals(strChinese)) {
                     correct++;
@@ -196,7 +196,7 @@ public class CnANNTrain {
         // 可根据需要训练不同的predictSize或者neurons的ANN模型
         // 根据机器的不同，训练时间不一样，但一般需要10分钟左右，所以慢慢等一会吧
         // 可以考虑中文，数字字母分开训练跟识别，提高准确性
-         annT.train(Constant.predictSize, Constant.neurons);
+         annT.train(Constant.PREDICT_SIZE, Constant.NEURONS);
 
         annT.predict();
 

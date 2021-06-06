@@ -10,21 +10,21 @@ import java.util.Properties;
 
 /**
  * 分页查询控制
+ *
  * @author veeja
- * @date 2018-09-07
  */
 @Configuration
 public class PageHelperConfig {
 
-  @Value("${pagehelper.helperDialect}")
-  private String helperDialect;
+    @Value("${pagehelper.helperDialect}")
+    private String helperDialect;
 
-  @Bean
-  public PageInterceptor pageInterceptor() {
-    PageInterceptor pageInterceptor = new PageInterceptor();
-    Properties properties = new Properties();
-    properties.setProperty("helperDialect", helperDialect);
-    pageInterceptor.setProperties(properties);
-    return pageInterceptor;
-  }
+    @Bean
+    public PageInterceptor pageInterceptor() {
+        PageInterceptor pageInterceptor = new PageInterceptor();
+        Properties properties = new Properties();
+        properties.setProperty("helperDialect", helperDialect);
+        pageInterceptor.setProperties(properties);
+        return pageInterceptor;
+    }
 }

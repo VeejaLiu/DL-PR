@@ -9,34 +9,36 @@ import com.veeja.annotation.RetExclude;
 import springfox.documentation.annotations.ApiIgnore;
 
 
-
+/**
+ * @author liuweijia
+ */
 @ApiIgnore
 @Controller
 public class CommonController {
 
     @RetExclude
-	@RequestMapping(value = "", method = { RequestMethod.GET })
-	public String doc() {
-		// return "redirect:swagger-ui.html";
+    @RequestMapping(value = "", method = {RequestMethod.GET})
+    public String doc() {
+        // return "redirect:swagger-ui.html";
         return "home/index";
-	}
-	
-    @RetExclude
-	@RequestMapping(value = "login", method = { RequestMethod.GET })
-	public String loginPage() {
-		return "home/login";
-	}
-	
-    @RetExclude
-	@RequestMapping(value = "index", method = { RequestMethod.GET })
-	public String indexPage() {
-		return "home/index";
-	}
+    }
 
     @RetExclude
-	@RequestMapping(value = "unauthorized", method = { RequestMethod.GET })
-	public String unauthorizedPage() {
-		return "unauthorized";
-	}
-	
+    @RequestMapping(value = "login", method = {RequestMethod.GET})
+    public String loginPage() {
+        return "home/login";
+    }
+
+    @RetExclude
+    @RequestMapping(value = "index", method = {RequestMethod.GET})
+    public String indexPage() {
+        return "home/index";
+    }
+
+    @RetExclude
+    @RequestMapping(value = "unauthorized", method = {RequestMethod.GET})
+    public String unauthorizedPage() {
+        return "unauthorized";
+    }
+
 }

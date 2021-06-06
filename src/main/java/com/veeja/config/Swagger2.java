@@ -18,14 +18,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * 新的swagger组件中使用了新的方法来对Web api 进行分组。原来使用 description ，默认一个Controller类中包含的方法构成一 个api分组。
  * 现在使用tag，可以更加方便的分组。
  * 比如把两个Controller类里的方法划分成同一个分组。tag的key用来区分不同的分组。tag的value用做分组的描述。
+ *
+ * @author veeja
  * @ApiOperation 中value是api的简要说明，在界面api 链接的右侧，少于120个字符。
  * @ApiOperation 中notes是api的详细说明，需要点开api 链接才能看到。
  * @ApiOperation 中 produces 用来标记api返回值的具体类型。这里是json格式，utf8编码。
- */
-/**
+ * <p>
  * 集成swagger2 接口管理文档
- * @author veeja
- * @date 2018-09-07
  */
 @Configuration
 @EnableSwagger2

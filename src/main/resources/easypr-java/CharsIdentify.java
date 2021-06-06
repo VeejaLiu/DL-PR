@@ -42,15 +42,15 @@ public class CharsIdentify {
         Mat img = opencv_imgcodecs.imread(name);
         Mat f = CoreFunc.features(img, Constant.predictSize);*/
         
-        Mat f = CoreFunc.features(input, Constant.predictSize);
+        Mat f = CoreFunc.features(input, Constant.PREDICT_SIZE);
 
         int index = this.classify(f, isChinese, isSpeci);
         
         System.err.print(index);
-        if (index < Constant.numCharacter) {
-            result = String.valueOf(Constant.strCharacters[index]);
+        if (index < Constant.NUM_CHARACTER) {
+            result = String.valueOf(Constant.STR_CHARACTERS[index]);
         } else {
-            String s = Constant.strChinese[index - Constant.numCharacter];
+            String s = Constant.STR_CHINESE[index - Constant.NUM_CHARACTER];
             result = Constant.KEY_CHINESE_MAP.get(s);   // 编码转中文
         }
         System.err.println(result);
@@ -64,8 +64,8 @@ public class CharsIdentify {
 
         ann.predict(f, output, 0);  // 预测结果
 
-        int ann_min = (!isChinses) ? ((isSpeci) ? 10 : 0) : Constant.numCharacter;
-        int ann_max = (!isChinses) ? Constant.numCharacter : Constant.numAll;
+        int ann_min = (!isChinses) ? ((isSpeci) ? 10 : 0) : Constant.NUM_CHARACTER;
+        int ann_max = (!isChinses) ? Constant.NUM_CHARACTER : Constant.NUM_ALL;
 
         float maxVal = -2;
 
