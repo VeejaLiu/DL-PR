@@ -1,10 +1,10 @@
 /**
  * 基础函数
  */
-define(['common', 'utils', 'jquery_app', 'template', 'api', 'constant'], function(common, utils, jquery_app, template, api, constant) {
+define(['common', 'utils', 'jquery_app', 'template', 'api', 'constant'], function (common, utils, jquery_app, template, api, constant) {
 
-	function init() {
-		open_initTab();
+    function init() {
+        open_initTab();
         initMenu();
         initSize();
         bindEvent();
@@ -12,7 +12,7 @@ define(['common', 'utils', 'jquery_app', 'template', 'api', 'constant'], functio
 
     function initMenu() {
         // 点击侧边栏菜单 或 修改密码
-        $(".navigation, #updatePassword").on('click', 'a', function(e) {
+        $(".navigation, #updatePassword").on('click', 'a', function (e) {
 
             var href = $(this).attr("href");
 
@@ -20,7 +20,7 @@ define(['common', 'utils', 'jquery_app', 'template', 'api', 'constant'], functio
             if (href === '#') {
                 return;
             }
-            
+
             var url = $(this).attr("h");
             var txt = $(this).text();
             var menuId = $(this).attr("id");
@@ -32,24 +32,24 @@ define(['common', 'utils', 'jquery_app', 'template', 'api', 'constant'], functio
     }
 
     function bindEvent() {
-        $('#closeOtherTab').click(function(ev) {
+        $('#closeOtherTab').click(function (ev) {
             close_other_tab2();
         });
-        $('#closeThisTab').click(function(ev) {
+        $('#closeThisTab').click(function (ev) {
             close_current_tab();
         });
-        $('#closeAllTab').click(function(ev) {
+        $('#closeAllTab').click(function (ev) {
             close_all_tab();
         });
         // 下拉菜单展开时，关闭选项卡右键菜单
-        $('.dropdown').on('show.bs.dropdown', function() {
+        $('.dropdown').on('show.bs.dropdown', function () {
             $("#contextmenu").hide();
         })
     }
 
     function initSize() {
         $(".ifr").height($(window).height() - 54);
-        $(window).resize(function() {
+        $(window).resize(function () {
             $(".ifr").height($(window).height() - 104);
         });
     }

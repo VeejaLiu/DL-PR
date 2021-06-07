@@ -1,5 +1,4 @@
 /**
- * 
  * @returns
  */
 require(['../../js/common/common.config.js'], function () {

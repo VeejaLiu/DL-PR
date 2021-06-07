@@ -23,17 +23,15 @@ import com.veeja.util.ImageUtil;
 
 /**
  * 车牌识别训练、检测 (级联分类器)
- * 
+ * <p>
  * 训练自己的级联分类器 -- 调用opencv的exe应用程序
  * https://blog.csdn.net/dbzzcz/article/details/105517946
- *  官方教程地址：
- *  https://docs.opencv.org/master/dc/d88/tutorial_traincascade.html
- * 
+ * 官方教程地址：
+ * https://docs.opencv.org/master/dc/d88/tutorial_traincascade.html
+ * <p>
  * 获取opencv_traincascade.exe应用程序，官方下载3.4.1版本的安装包，解压出来即可找到
- * 或者加入 1054836232 Q群, 在群共享文件中获取应用程序安装包
  *
  * @author veeja
- * @date 2020-09-15 12:32
  */
 public class PlateCascadeTrain {
 
@@ -41,23 +39,29 @@ public class PlateCascadeTrain {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
-    // 默认的训练操作的根目录
+    /**
+     * 默认的训练操作的根目录
+     */
     private static final String DEFAULT_PATH = Constant.DEFAULT_DIR + "train/cascade_sample/";
-    
+
     private static final String MODEL_PATH = Constant.DEFAULT_DIR + "train/cascade_sample/data";
 
-    // 应用程序所在目录
+    /**
+     * 应用程序所在目录
+     */
     private static final String EXE_BASE_PATH = "D:/OpenCV/3.4.1/build/x64/vc14/bin/";
-    private static final String EXE_TRAINCASCADE= EXE_BASE_PATH  + "opencv_traincascade.exe";
-    private static final String EXE_CREATESAMPLES= EXE_BASE_PATH  + "opencv_createsamples.exe";
+    private static final String EXE_TRAINCASCADE = EXE_BASE_PATH + "opencv_traincascade.exe";
+    private static final String EXE_CREATESAMPLES = EXE_BASE_PATH + "opencv_createsamples.exe";
 
-    // 
     private static Integer width = Constant.DEFAULT_WIDTH;
     private static Integer height = Constant.DEFAULT_HEIGHT;
 
-    private static final String posInfo = "pos.info"; // 正样本文件路径数据，一行代表一个文件
-    private static final String negInfo = "neg.info"; // 负样本文件路径数据，一行代表一个文件
-    private static final String posVec = "pos.vec"; // 包含正样本的vec文件；  cmd_createsample 生成
+    // 正样本文件路径数据，一行代表一个文件
+    private static final String posInfo = "pos.info";
+    // 负样本文件路径数据，一行代表一个文件
+    private static final String negInfo = "neg.info";
+    // 包含正样本的vec文件；  cmd_createsample 生成
+    private static final String posVec = "pos.vec";
 
 
     /**
@@ -74,15 +78,15 @@ public class PlateCascadeTrain {
         param.put("numStages", 16);
         param.put("minhitrate", 0.99);
         param.put("maxfalsealarm", 0.45);
-        param.put("featureType", "LBP"); // LBP   //HAAR模型训练贼慢，400个正样本的模型，一个stage训练一个多小时
+        param.put("featureType", "LBP"); // LBP   //HAAR模型训练非常慢，400个正样本的模型，一个stage训练一个多小时
         param.put("mode", "ALL");
         param.put("w", width);
         param.put("h", height);
         param.put("precalcValBufSize", 2048);
         param.put("precalcIdxBufSize", 2048);
-        // 执行较慢  eclipse下执行无法看到执行效果； 资源管理器下查看opencv_traincascade.exe进程
+        // 执行较慢  eclipse下执行无法看到执行效果；资源管理器下查看opencv_traincascade.exe进程
         // 建议复制命令出来，在cmd窗口执行
-        execCmd(EXE_TRAINCASCADE, param);   
+        execCmd(EXE_TRAINCASCADE, param);
         // traincascade's error (Required leaf false alarm rate achieved. Branch training terminated.)
         // 先测试一下生成的cascade.xml，如果效果没有达到你的预期，
         // 解决方案： 1：maxfalsealarm值应该设定到0.4 - 0.5之间  2：正负样本数太少，增大样本数
@@ -104,13 +108,14 @@ public class PlateCascadeTrain {
 
     /**
      * 加载样本文件
+     *
      * @param negative
      * @param positive
      */
     public static void loadSamples(String negative, String positive) {
         // 加载负样本
         File f = new File(negative);
-        File negInfoFile = new File( f.getParent().concat("/").concat(negInfo));
+        File negInfoFile = new File(f.getParent().concat("/").concat(negInfo));
         FileWriter fw;
         try {
             fw = new FileWriter(negInfoFile);
@@ -132,7 +137,7 @@ public class PlateCascadeTrain {
             fw = new FileWriter(posInfoFile);
             BufferedWriter bw = new BufferedWriter(fw);
             for (File img : f.listFiles()) {
-                bw.write(f.getName() + "\\" +  img.getName() + " 1 0 0 " + width + " " + height); // 使用相对路径
+                bw.write(f.getName() + "\\" + img.getName() + " 1 0 0 " + width + " " + height); // 使用相对路径
                 bw.newLine();
             }
             bw.close();
@@ -160,8 +165,8 @@ public class PlateCascadeTrain {
         String trainedModel = Constant.DEFAULT_PLATE_MODEL_PATH;
         // String trainedModel = MODEL_PATH + "/cascade.xml";
         CascadeClassifier faceDetector = new CascadeClassifier(trainedModel);
-        Mat inMat = Imgcodecs.imread(DEFAULT_PATH+ "test/1.jpg");
-        String targetPath =  DEFAULT_PATH + "test/result.jpg";
+        Mat inMat = Imgcodecs.imread(DEFAULT_PATH + "test/1.jpg");
+        String targetPath = DEFAULT_PATH + "test/result.jpg";
 
         Boolean debug = false;
         Mat resized = ImageUtil.narrow(inMat, 600, debug, DEFAULT_PATH);

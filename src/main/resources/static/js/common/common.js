@@ -1,13 +1,13 @@
-define(['constant'], function(constant) {
+define(['constant'], function (constant) {
 
     //跨域调用父级方法
     function execParentFun(funName, paraJson) {
         var para = "t=" + Math.random() + "&funName=" + funName;
-        $.each(paraJson, function(name, value) {
+        $.each(paraJson, function (name, value) {
             para += (para == "" ? "" : "&");
             para += name + "=" + escape(value);
         });
-        if (typeof(exec_obj) == 'undefined') {
+        if (typeof (exec_obj) == 'undefined') {
             exec_obj = document.createElement('iframe');
             exec_obj.name = 'tmp_frame';
             exec_obj.src = constant.URL.WEB_URL + 'cn/components/execJs.html?' + para;
@@ -24,9 +24,9 @@ define(['constant'], function(constant) {
 
     var UI = new Object();
     //事件注册
-    UI.register = function(id, even, fun, arr) {
+    UI.register = function (id, even, fun, arr) {
         if (G(id)) {
-            G(id)["on" + even] = function() {
+            G(id)["on" + even] = function () {
                 fun(arr);
             };
         }
@@ -52,7 +52,7 @@ define(['constant'], function(constant) {
 
 function open_initTab() {
     // 关闭 （off防止多次绑定，重复执行。最好是使用事件委托）
-    $(".icon-close").off('click').click(function() {
+    $(".icon-close").off('click').click(function () {
         var v = $(this).parent().attr("for");
         $("#" + v).remove();
         var fordiv = $(this).parent().attr("fordiv");
@@ -63,7 +63,7 @@ function open_initTab() {
     });
 
     // 弹出右键菜单 （off防止多次绑定，重复执行。最好是使用事件委托）
-    $('.ifr').find('label').off('contextmenu').contextmenu(function(e) {
+    $('.ifr').find('label').off('contextmenu').contextmenu(function (e) {
         e.preventDefault();
         e.stopPropagation();
         $('.dropdown').removeClass('open');
@@ -118,7 +118,7 @@ function open_addTab(url, title, tabid, refresh) {
         var pageMenus = JSON.parse(sessionStorage.pageMenus) || [];
         for (var i = 0; i < pageMenus.length; i++) {
             var urlList = url.split('/');
-            var lastUrl =  urlList[urlList.length - 1].split('?')[0];
+            var lastUrl = urlList[urlList.length - 1].split('?')[0];
             var urlText = urlList[urlList.length - 2] + '/' + lastUrl;
             var menuList = pageMenus[i].menuUrl.split('/');
             var menuText = menuList[menuList.length - 2] + '/' + menuList[menuList.length - 1];
@@ -128,7 +128,7 @@ function open_addTab(url, title, tabid, refresh) {
         }
     }
 
-    $('input[name="grp"]').each(function(index, obj) {
+    $('input[name="grp"]').each(function (index, obj) {
         if ($(obj).attr("id") == id && $(obj).css("display") == "none") {
             $("#" + id).prop("checked", "checked");
             $("#" + id).next().css("display", "");
@@ -198,7 +198,7 @@ function close_tab(closeTabId, openTabId) {
 // 关闭未选中的选项卡
 function close_other_tab() {
     var $tabs = $('.ifr').find('input[name="grp"]:not(:checked)');
-    $tabs.each(function() {
+    $tabs.each(function () {
         $(this).next().next().remove();
         $(this).next().remove();
         $(this).remove();
@@ -212,7 +212,7 @@ function close_other_tab2() {
     var input = $(currentRightClickLabel).prev();
 
     var $tabs = $('.ifr').find('input[name="grp"]');
-    $tabs.each(function() {
+    $tabs.each(function () {
         if ($(input)[0].id !== this.id) {
             $(this).next().next().remove();
             $(this).next().remove();
@@ -238,7 +238,7 @@ function close_current_tab() {
 // 隐藏当前选项卡，并打开新的选项卡
 function open_close_tab(url, title, openTabId) {
     var currTabId = "";
-    $('input[name="grp"]').each(function(index, obj) {
+    $('input[name="grp"]').each(function (index, obj) {
         if ($(obj).prop("checked")) {
             currTabId = $(obj).attr("id").substring(4);
             return;
@@ -255,7 +255,7 @@ function open_close_tab(url, title, openTabId) {
 // 关闭当前选项卡，打开新的选项卡
 function close_single_tab(openTabId, url, title, refresh) {
     var currTabId = "";
-    $('input[name="grp"]').each(function(index, obj) {
+    $('input[name="grp"]').each(function (index, obj) {
         if ($(obj).prop("checked")) {
             currTabId = $(obj).attr("id").substring(4);
             return;
@@ -281,7 +281,7 @@ function close_single_tab(openTabId, url, title, refresh) {
 // 关闭所有选项卡
 function close_all_tab() {
     var $tabs = $('.ifr').find('input[name="grp"]');
-    $tabs.each(function() {
+    $tabs.each(function () {
         $(this).next().next().remove();
         $(this).next().remove();
         $(this).remove();
@@ -293,7 +293,7 @@ function close_frame(func, url, title, tabid, refresh) {
     $('#iframe_body').hide();
     $('#content_body').show();
     if (func == "addTab") {
-        open_addTab(url, title, tabid, refresh);       
+        open_addTab(url, title, tabid, refresh);
     }
 
 }

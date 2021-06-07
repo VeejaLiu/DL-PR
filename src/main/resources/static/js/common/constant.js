@@ -1,6 +1,5 @@
-
 define({
-    'URL':{
+    'URL': {
         'MAIN_URL': 'http://localhost:16666/', // 接口地址
         'WEB_URL': 'http://localhost:16666/', // 前端地址
         'PATH_LOGIN': '/login'
@@ -9,7 +8,7 @@ define({
         // key代表城市 value代表该城市公众号对应的appId
         "china": 'wx95112c5c2ed8bca0'
     },
-    'DATATABLE_LANGUAGE':{
+    'DATATABLE_LANGUAGE': {
         'sProcessing': '处理中...',
         'sLengthMenu': '显示 _MENU_ 条',
         'sZeroRecords': '没有匹配结果',

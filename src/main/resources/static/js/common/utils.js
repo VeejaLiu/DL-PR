@@ -11,6 +11,7 @@ define(['constant'], function (constant) {
         }
         return params;
     }
+
     function goUrlModule(url, parameterList) {
         var parameter = '';
         for (var i = 0; i < parameterList.length; i++) {
@@ -21,8 +22,9 @@ define(['constant'], function (constant) {
         mui.openWindow({
             id: 'newW',
             url: url + parameter
-       });
+        });
     }
+
     function ajax(option) {
         var type = option.type || 'get';
         var url = option.url;
@@ -71,7 +73,7 @@ define(['constant'], function (constant) {
             },
             error: function (jqXHR) {
                 // console.log(jqXHR);
-                if (jqXHR.status === 401 ) {
+                if (jqXHR.status === 401) {
                     layer.msg(jqXHR.responseJSON.msg, {icon: 2});
                     return;
                 }
@@ -101,23 +103,23 @@ define(['constant'], function (constant) {
         return successUrl;
     }
 
-    String.format = function() {
+    String.format = function () {
         if (arguments.length == 0)
             return null;
         var str = arguments[0];
-        for ( var i = 1; i < arguments.length; i++) {
+        for (var i = 1; i < arguments.length; i++) {
             var re = new RegExp('\\{' + (i - 1) + '\\}', 'gm');
             str = str.replace(re, arguments[i]);
         }
         return str;
-	}
-	
+    }
+
     function toCamel(str) {
         str = str.replace(/([^_])(?:_+([^_]))/g, function ($0, $1, $2) {
             return $1 + $2.toUpperCase();
         });
         // 首字母大写
-        return str.slice(0,1).toUpperCase() + str.slice(1);
+        return str.slice(0, 1).toUpperCase() + str.slice(1);
     }
 
     // 驼峰 转 下横线
@@ -126,7 +128,7 @@ define(['constant'], function (constant) {
         var temp = str.replace(/[A-Z]/g, function (match) {
             return "_" + match.toLowerCase();
         });
-        if(temp.slice(0,1) === '_'){ //如果首字母是大写，执行replace时会多一个_，这里需要去掉
+        if (temp.slice(0, 1) === '_') { //如果首字母是大写，执行replace时会多一个_，这里需要去掉
             temp = temp.slice(1);
         }
         return temp;
@@ -134,12 +136,12 @@ define(['constant'], function (constant) {
 
 
     // 初始化表单值
-    function  initFormData(formId, data, notReset) {
-        if(!notReset){
+    function initFormData(formId, data, notReset) {
+        if (!notReset) {
             $(formId)[0].reset();
         }
         $.each(data, function (key, value) {
-            $(formId).find("[name='" + key +"']").val(value);
+            $(formId).find("[name='" + key + "']").val(value);
         })
     }
 
@@ -149,7 +151,7 @@ define(['constant'], function (constant) {
         var formData = {};
         // 去除两边空格
         $.map(arrayData, function (item, i) {
-            if(item['name'].indexOf("Check") > 0 && item['value'] =="on"){
+            if (item['name'].indexOf("Check") > 0 && item['value'] == "on") {
                 formData[item['name']] = true;
             } else {
                 formData[item['name']] = $.trim(item['value']);
@@ -158,10 +160,10 @@ define(['constant'], function (constant) {
         return formData;
     }
 
-    function checkFormData($form){
+    function checkFormData($form) {
         var bl = true;
         $form.find(".require").each(function (index, item) {
-            if($.trim($(item).val()) === ''){
+            if ($.trim($(item).val()) === '') {
                 layer.msg("请填写必填项", {icon: 2});
                 $(item).focus();
                 bl = false;
@@ -194,7 +196,7 @@ define(['constant'], function (constant) {
     return {
         'ajax': ajax,
         'getUrlParams': getUrlParams,
-        'goUrlModule':goUrlModule,
+        'goUrlModule': goUrlModule,
         'addToken': addToken,
         'toCamel': toCamel,
         'toLowerLine': toLowerLine,

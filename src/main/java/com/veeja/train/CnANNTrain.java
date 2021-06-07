@@ -23,7 +23,6 @@ import com.veeja.util.PlateUtil;
  * 图片文字识别训练
  * 训练出来的库文件，用于识别图片中的中文字符
  * @author veeja
- * @date 2020-07-02 22:16
  */
 public class CnANNTrain {
 

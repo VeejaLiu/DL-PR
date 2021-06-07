@@ -1,5 +1,5 @@
-require(['../../js/common/common.config.js'], function() {
-    require(["plateContentMod"], function(plateContentMod) {
+require(['../../js/common/common.config.js'], function () {
+    require(["plateContentMod"], function (plateContentMod) {
         function setDiv() {
             var height = $(window).height() - 135;
             $("#bodyDiv").height(height);
@@ -12,6 +12,7 @@ require(['../../js/common/common.config.js'], function() {
             $("#treeDiv").css('max-height', height + "px");
 
         }
+
         plateContentMod.init();
         setDiv();
 

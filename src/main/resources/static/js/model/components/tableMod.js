@@ -1,7 +1,7 @@
 /**
  * DataTable二次封装
  */
-define(['constant', 'utils'], function(constant, utils){
+define(['constant', 'utils'], function (constant, utils) {
 
     var table = {
         "instance": null,
@@ -98,7 +98,7 @@ define(['constant', 'utils'], function(constant, utils){
     }
 
     return {
-        'init':init,
+        'init': init,
         'reload': reload,
         'refresh': refresh
     }

@@ -20,38 +20,38 @@ define(['constant'], function (constant) {
 
         // 口令管理
         "pass": {
-            'passMain':constant.URL.MAIN_URL + '/passMain/',
-            'queryByPage':constant.URL.MAIN_URL + '/passMain/queryByPage',
+            'passMain': constant.URL.MAIN_URL + '/passMain/',
+            'queryByPage': constant.URL.MAIN_URL + '/passMain/queryByPage',
         },
 
         // 业主管理
         "owner": {
-            'systemOwner':constant.URL.MAIN_URL + '/systemOwner/',
-            'queryByPage':constant.URL.MAIN_URL + '/systemOwner/queryByPage',
+            'systemOwner': constant.URL.MAIN_URL + '/systemOwner/',
+            'queryByPage': constant.URL.MAIN_URL + '/systemOwner/queryByPage',
         },
 
         // 环境管理
         "evn": {
-            'evnMain':constant.URL.MAIN_URL + '/evnMain/',
-            'queryByPage':constant.URL.MAIN_URL + '/evnMain/queryByPage',
-            'doExport':constant.URL.MAIN_URL + '/evnMain/doExport',
+            'evnMain': constant.URL.MAIN_URL + '/evnMain/',
+            'queryByPage': constant.URL.MAIN_URL + '/evnMain/queryByPage',
+            'doExport': constant.URL.MAIN_URL + '/evnMain/doExport',
         },
 
         // 环境管理
         "md": {
-            'getFileTreeByDir':constant.URL.MAIN_URL + '/mdMain/getFileTreeByDir',
-            'readMd':constant.URL.MAIN_URL + '/mdMain/readMd',
-            'getRootDir':constant.URL.MAIN_URL + '/mdMain/getRootDir',
-            'setDefaultRootDir':constant.URL.MAIN_URL + '/mdMain/setDefaultRootDir',
-            'addRootDir':constant.URL.MAIN_URL + '/mdMain/addRootDir',
-            'delRootDir':constant.URL.MAIN_URL + '/mdMain/delRootDir',
-            'createDirOrFile':constant.URL.MAIN_URL + '/mdMain/createDirOrFile',
-            'removeDirOrFile':constant.URL.MAIN_URL + '/mdMain/removeDirOrFile',
-            'renameDirOrFile':constant.URL.MAIN_URL + '/mdMain/renameDirOrFile',
-            'saveMd':constant.URL.MAIN_URL + '/mdMain/saveMd',
-            'mdImgUpload':constant.URL.MAIN_URL + '/mdMain/mdImgUpload',
-            'readFile':constant.URL.MAIN_URL + '/mdMain/readFile',
-            'searchMd':constant.URL.MAIN_URL + '/mdMain/searchMd',
+            'getFileTreeByDir': constant.URL.MAIN_URL + '/mdMain/getFileTreeByDir',
+            'readMd': constant.URL.MAIN_URL + '/mdMain/readMd',
+            'getRootDir': constant.URL.MAIN_URL + '/mdMain/getRootDir',
+            'setDefaultRootDir': constant.URL.MAIN_URL + '/mdMain/setDefaultRootDir',
+            'addRootDir': constant.URL.MAIN_URL + '/mdMain/addRootDir',
+            'delRootDir': constant.URL.MAIN_URL + '/mdMain/delRootDir',
+            'createDirOrFile': constant.URL.MAIN_URL + '/mdMain/createDirOrFile',
+            'removeDirOrFile': constant.URL.MAIN_URL + '/mdMain/removeDirOrFile',
+            'renameDirOrFile': constant.URL.MAIN_URL + '/mdMain/renameDirOrFile',
+            'saveMd': constant.URL.MAIN_URL + '/mdMain/saveMd',
+            'mdImgUpload': constant.URL.MAIN_URL + '/mdMain/mdImgUpload',
+            'readFile': constant.URL.MAIN_URL + '/mdMain/readFile',
+            'searchMd': constant.URL.MAIN_URL + '/mdMain/searchMd',
         },
 
 
@@ -60,22 +60,22 @@ define(['constant'], function (constant) {
             'login': constant.URL.MAIN_URL + '/doLogin ',
             'logout': constant.URL.MAIN_URL + '/logout',
             'getSystemUser': constant.URL.MAIN_URL + '/getSystemUser',
-            'systemUser':constant.URL.MAIN_URL + '/systemUser/',
-            'queryByPage':constant.URL.MAIN_URL + '/systemUser/queryByPage',
+            'systemUser': constant.URL.MAIN_URL + '/systemUser/',
+            'queryByPage': constant.URL.MAIN_URL + '/systemUser/queryByPage',
             'updatePasswd': constant.URL.MAIN_URL + 'systemUser/updatePasswd',  // 修改用户密码
             'resetPasswd': constant.URL.MAIN_URL + 'systemUser/resetPasswd',  // 重置用户密码
             'queryByCondition': constant.URL.MAIN_URL + 'systemUser/queryByCondition'   // 查询用户列表信息
         },
 
         "dept": {
-            'systemDept':constant.URL.MAIN_URL + '/systemDept/',
-            'queryByPage':constant.URL.MAIN_URL + 'systemDept/queryByPage',
+            'systemDept': constant.URL.MAIN_URL + '/systemDept/',
+            'queryByPage': constant.URL.MAIN_URL + 'systemDept/queryByPage',
             'queryByCondition': constant.URL.MAIN_URL + 'systemDept/queryByCondition'   // 查询用户列表信息
         },
 
         "menu": {
-            'systemMenu':constant.URL.MAIN_URL + '/systemMenu/',
-            'queryByPage':constant.URL.MAIN_URL + 'systemMenu/queryByPage',
+            'systemMenu': constant.URL.MAIN_URL + '/systemMenu/',
+            'queryByPage': constant.URL.MAIN_URL + 'systemMenu/queryByPage',
             'queryByCondition': constant.URL.MAIN_URL + 'systemMenu/queryByCondition'   // 查询用户列表信息
         },
 
@@ -107,27 +107,25 @@ define(['constant'], function (constant) {
             'addRoleMenu': constant.URL.MAIN_URL + 'role/addRoleMenu', // 角色分配菜单
             'queryMenuByUser': constant.URL.MAIN_URL + 'systemMenu/getUserMenu', // 查询用户权限下的菜单
         },
-        
+
         // 车牌识别
         "plate": {
-            'getProcessStep':constant.URL.MAIN_URL + '/plate/getProcessStep',
-            'recognise':constant.URL.MAIN_URL + '/plate/recognise',
-            'getImgInfo':constant.URL.MAIN_URL + '/plate/getImgInfo',
-            'getHSVValue':constant.URL.MAIN_URL + '/plate/getHSVValue',
+            'getProcessStep': constant.URL.MAIN_URL + '/plate/getProcessStep',
+            'recognise': constant.URL.MAIN_URL + '/plate/recognise',
+            'getImgInfo': constant.URL.MAIN_URL + '/plate/getImgInfo',
+            'getHSVValue': constant.URL.MAIN_URL + '/plate/getHSVValue',
         },
-        
+
         // 人脸识别
         "face": {
-            'recognise':constant.URL.MAIN_URL + '/face/recognise',
+            'recognise': constant.URL.MAIN_URL + '/face/recognise',
         },
 
         "file": {
-            'getFileTreeByDir':constant.URL.MAIN_URL + '/file/getFileTreeByDir',
-            'readFile':constant.URL.MAIN_URL + '/file/readFile',
+            'getFileTreeByDir': constant.URL.MAIN_URL + '/file/getFileTreeByDir',
+            'readFile': constant.URL.MAIN_URL + '/file/readFile',
         }
-        
 
-        
-        
+
     };
 });

@@ -17,6 +17,7 @@ define(function () {
         this.onChange = config.onChange;
         this.onInit();
     }
+
     checkBox.prototype.onInit = function () {
         var html = '<div class="fa-cb-box">';
         if (this.slabel) {

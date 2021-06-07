@@ -30,12 +30,12 @@ spring:
 
 ## Mybatis config
 mybatis:
-  mapperLocations: classpath:mapper/**/*.xml
+  mapperLocations: classpath:mapper/*.xml
   configLocation: classpath:mybatis.xml
 
 ## pagehelper
 pagehelper: 
-  helperDialect: mysql #postgresql
+  helperDialect: mysql
   reasonable: true
   supportMethodsArguments: true
   params: countSql
