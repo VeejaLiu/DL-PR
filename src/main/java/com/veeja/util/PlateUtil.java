@@ -45,22 +45,16 @@ import com.veeja.train.SVMTrain;
 public class PlateUtil {
 
     private static SVM svm;
-    /**
-     * 简单测试了一下，发现绿牌跟蓝牌分开识别，准确率更高
-     */
     private static ANN_MLP ann_blue;
-    //    private static ANN_MLP ann_green;
     private static ANN_MLP ann_cn;
 
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         svm = SVM.create();
         ann_blue = ANN_MLP.create();
-//        ann_green = ANN_MLP.create();
         ann_cn = ANN_MLP.create();
         loadSvmModel(Constant.DEFAULT_SVM_PATH);
         loadAnnBlueModel(Constant.DEFAULT_ANN_PATH);
-//        loadAnnGreenModel(Constant.DEFAULT_ANN_GREEN_PATH);
         loadAnnCnModel(Constant.DEFAULT_ANN_CN_PATH);
     }
 
@@ -73,11 +67,6 @@ public class PlateUtil {
         ann_blue.clear();
         ann_blue = ANN_MLP.load(path);
     }
-
-//    public static void loadAnnGreenModel(String path) {
-//        ann_green.clear();
-//        ann_green = ANN_MLP.load(path);
-//    }
 
     public static void loadAnnCnModel(String path) {
         ann_cn.clear();
@@ -143,7 +132,8 @@ public class PlateUtil {
 
         // 使用闭操作 同时处理一些干扰元素
         Mat morphology = threshold.clone();
-        ImageUtil.morphologyClose(threshold, morphology, debug, tempPath); // 闭操作
+        // 闭操作
+        ImageUtil.morphologyClose(threshold, morphology, debug, tempPath);
 
         // 边缘腐蚀，边缘膨胀，可以多执行两次
         morphology = ImageUtil.erode(morphology, debug, tempPath, 4, 4);
@@ -196,7 +186,8 @@ public class PlateUtil {
         // 二次hsv过滤，二值化
         Mat threshold = ImageUtil.hsvThreshold(equalizeMat, debug, tempPath, plateHSV.equalizeMinH, plateHSV.equalizeMaxH);
         Mat morphology = threshold.clone();
-        ImageUtil.morphologyClose(threshold, morphology, debug, tempPath); // 闭操作
+        // 闭操作
+        ImageUtil.morphologyClose(threshold, morphology, debug, tempPath);
         threshold.release();
 
         Mat rgb = new Mat();
