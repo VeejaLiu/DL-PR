@@ -95,18 +95,18 @@ public class PlateServiceImpl implements PlateService {
     @Override
     public Object recognise(String filePath, boolean reRecognise) {
         filePath = filePath.replaceAll("\\\\", "/");
-        File f = new File(filePath);
+        File file = new File(filePath);
         PlateFileEntity entity = null;
 
         Map<String, Object> paramMap = Maps.newHashMap();
         paramMap.put("filePath", filePath);
         List<PlateFileEntity> list = plateFileMapper.selectByCondition(paramMap);
         if (null == list || list.size() <= 0) {
-            if (FileUtil.checkFile(f)) {
+            if (FileUtil.checkFile(file)) {
                 entity = new PlateFileEntity();
-                entity.setFileName(f.getName());
-                entity.setFilePath(f.getAbsolutePath().replaceAll("\\\\", "/"));
-                entity.setFileType(f.getName().substring(f.getName().lastIndexOf(".") + 1));
+                entity.setFileName(file.getName());
+                entity.setFilePath(file.getAbsolutePath().replaceAll("\\\\", "/"));
+                entity.setFileType(file.getName().substring(file.getName().lastIndexOf(".") + 1));
                 plateFileMapper.insertSelective(entity);
             }
             reRecognise = true;
@@ -116,7 +116,7 @@ public class PlateServiceImpl implements PlateService {
 
         if (reRecognise || StringUtils.isEmpty(entity.getTempPath())) {
             // 重新识别
-            doRecognise(f, entity);
+            doRecognise(file, entity);
             // 重新识别之后，重新获取一下数据
             entity = plateFileMapper.selectByPrimaryKey(entity.getId());
         }
