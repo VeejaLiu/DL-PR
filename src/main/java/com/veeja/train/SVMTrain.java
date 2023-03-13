@@ -230,22 +230,40 @@ public class SVMTrain {
         return features;
     }
 
-    public static float[] projectedHistogram(Mat inMat, Direction direction){
+
+    /**
+     * 计算图像的投影直方图
+     *
+     * @param inMat     输入的图像矩阵
+     * @param direction 投影方向，横向或纵向
+     * @return 返回投影直方图数组
+     */
+    public static float[] projectedHistogram(Mat inMat, Direction direction) {
+        // 创建一个新的矩阵 img，将输入矩阵 inMat 复制到其中。
         Mat img = new Mat();
         inMat.copyTo(img);
+
+        // 获取矩阵 img 的行数或列数，根据 direction 指定的方向确定 sz 的值。
         int sz = img.rows();
         if(Direction.VERTICAL.equals(direction)) {
             sz = img.cols();
         }
-        // 统计这一行或一列中，非零元素的个数，并保存到nonZeroMat中
+
+        // 创建一个浮点数数组 nonZeroMat，用于保存投影直方图的值。
+        // 在后续的计算过程中，该数组中的每个元素将分别对应图像的每一行或列的像素值之和。
         float[] nonZeroMat = new float[sz];
-        Core.extractChannel(img, img, 0);   // 提取0通道
+
+        // 提取矩阵 img 的 0 通道，即将非 0 像素值转换为 1.
+        Core.extractChannel(img, img, 0);
+
+        // 针对每一行或每一列，统计非零元素的个数，并将其保存到 nonZeroMat 数组中。
         for (int j = 0; j < sz; j++) {
             Mat data = Direction.HORIZONTAL.equals(direction) ? img.row(j) : img.col(j);
             int count = Core.countNonZero(data);
             nonZeroMat[j] = count;
         }
-        // Normalize histogram
+
+        // 归一化直方图，即将 nonZeroMat 数组中的每个值除以最大值，得到归一化后的直方图。
         float max = 1F;
         for (int j = 0; j < nonZeroMat.length; j++) {
             max = Math.max(max, nonZeroMat[j]);
@@ -253,39 +271,50 @@ public class SVMTrain {
         for (int j = 0; j < nonZeroMat.length; j++) {
             nonZeroMat[j] /= max;
         }
+
+        // 返回归一化后的直方图数组。
         return nonZeroMat;
     }
-    
 
+
+    /**
+     * 从输入的图像中提取颜色特征
+     *
+     * @param src 原始图像
+     * @return 颜色特征向量
+     */
     public static Mat getColorFeatures(Mat src) {
+        // 将图像转换为HSV色彩空间
         Mat src_hsv = new Mat();
         Imgproc.cvtColor(src, src_hsv, Imgproc.COLOR_BGR2GRAY);
 
+        // 初始化直方图数组h
         int sz = 180;
         int[] h = new int[180];
 
+        // 统计每个色相（hue）在输入图像中出现的次数
         for (int i = 0; i < src_hsv.rows(); i++) {
             for (int j = 0; j < src_hsv.cols(); j++) {
                 int H = (int) src_hsv.get(i, j)[0];// 0-180
+                // 将色相值转换为0-179的范围
                 if (H > sz - 1) {
                     H = sz - 1;
                 }
                 if (H < 0) {
                     H = 0;
-                } 
+                }
                 h[H]++;
             }
         }
-        // 创建黑色的图
+        // 将直方图数组h转换为OpenCV中的Mat对象，以便进一步处理
         Mat features = Mat.zeros(1, sz, CvType.CV_32F);
-        
         for (int j = 0; j < sz; j++) {
-            features.put(0, j, (float)h[j]);
+            features.put(0, j, (float) h[j]);
         }
 
+        // 归一化直方图数组
         MinMaxLocResult m = Core.minMaxLoc(features);
         double max = m.maxVal;
-
         if (max > 0) {
             features.convertTo(features, -1, 1.0f / max, 0);
         }
