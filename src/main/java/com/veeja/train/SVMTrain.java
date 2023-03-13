@@ -22,9 +22,10 @@ import com.veeja.util.GenerateIdUtil;
 
 /**
  * 基于org.opencv官方包实现的训练
- * 
+ *
  * 图片识别车牌训练
  * 训练出来的xml模型文件，用于判断切图是否是车牌
+ *
  * @author veeja
  * @date 2020-05-13 10:10
  */
@@ -34,7 +35,7 @@ public class SVMTrain {
     private static final String DEFAULT_PATH = Constant.DEFAULT_DIR + "train/";
 
     // 训练模型文件保存位置
-    private static final String MODEL_PATH = DEFAULT_PATH + GenerateIdUtil.getStrId() +"_svm.xml";
+    private static final String MODEL_PATH = DEFAULT_PATH + GenerateIdUtil.getStrId() + "_svm.xml";
 
     static {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -42,33 +43,33 @@ public class SVMTrain {
 
     public static void main(String[] arg) {
         // 训练， 生成svm.xml库文件
-        train(); 
+        train();
 
         // 识别，判断样本文件是否是车牌
         // predict(); 
     }
 
-    
+
     /**
      * 样本文件包含：
-     *  1、【蓝牌车牌】样本；5899个样本
-     *  2、【绿牌车牌】样本；773 个样本
-     *  3、【白色警用牌】样本；7个样本
-     *  4、【黄牌车牌】样本；288个样本
-     *  5、无车牌样本，负样本；4826个样本
+     * 1、【蓝牌车牌】样本；5899个样本
+     * 2、【绿牌车牌】样本；773 个样本
+     * 3、【白色警用牌】样本；7个样本
+     * 4、【黄牌车牌】样本；288个样本
+     * 5、无车牌样本，负样本；4826个样本
      */
     public static void train() {
 
         // 正样本  // 136 × 36 像素  训练的源图像文件要相同大小
         // List<File> imgList0 = FileUtil.listFile(new File(DEFAULT_PATH + "/learn/HasPlate"), Constant.DEFAULT_TYPE, false);
-        
+
         List<File> imgList0 = Lists.newArrayList();
         imgList0.addAll(FileUtil.listFile(new File(DEFAULT_PATH + "plate_sample/blue_old"), Constant.DEFAULT_TYPE, false));
         imgList0.addAll(FileUtil.listFile(new File(DEFAULT_PATH + "plate_sample/blue_new"), Constant.DEFAULT_TYPE, false));
         imgList0.addAll(FileUtil.listFile(new File(DEFAULT_PATH + "plate_sample/green"), Constant.DEFAULT_TYPE, false));
         imgList0.addAll(FileUtil.listFile(new File(DEFAULT_PATH + "plate_sample/white"), Constant.DEFAULT_TYPE, false));
         imgList0.addAll(FileUtil.listFile(new File(DEFAULT_PATH + "plate_sample/yellow_old"), Constant.DEFAULT_TYPE, false));
-        
+
         // 负样本   // 136 × 36 像素 训练的源图像文件要相同大小
         // List<File> imgList1 = FileUtil.listFile(new File(DEFAULT_PATH + "/learn/NoPlate"), Constant.DEFAULT_TYPE, false);
         List<File> imgList1 = Lists.newArrayList();
@@ -89,20 +90,20 @@ public class SVMTrain {
 
         for (int i = 0; i < sample_num; i++) {  // 遍历所有的正负样本，处理样本用于生成训练的库文件
             String path = "";
-            if(i < imgList0.size()) {
+            if (i < imgList0.size()) {
                 path = imgList0.get(i).getAbsolutePath();
             } else {
-                path = imgList1.get(i - imgList0.size()).getAbsolutePath(); 
+                path = imgList1.get(i - imgList0.size()).getAbsolutePath();
             }
 
             Mat inMat = Imgcodecs.imread(path);   // 读取样本文件
             Mat dst = getFeature(inMat);    // 获取样本文件的特征
-            
+
             // 创建一个行数为sample_num, 列数为 rows*cols 的矩阵; 用于存放样本
             if (trainingDataMat == null) {
                 trainingDataMat = new Mat(sample_num, dst.rows() * dst.cols(), CvType.CV_32F);
             }
-            
+
             // 将样本矩阵转换成只有一行的矩阵，保存为float数组
             float[] arr = new float[dst.rows() * dst.cols()];
             int l = 0;
@@ -141,7 +142,7 @@ public class SVMTrain {
 
     public static void predict() {
         // 加载训练得到的 xml 模型文件
-        SVM svm = SVM.load(MODEL_PATH); 
+        SVM svm = SVM.load(MODEL_PATH);
 
         // 136 × 36 像素   需要跟训练的源图像文件保持相同大小
         doPredict(svm, DEFAULT_PATH + "test/A01_NMV802_0.jpg");
@@ -170,7 +171,7 @@ public class SVMTrain {
         int labels[] = new int[i1 + i2];
 
         for (int i = 0; i < labels.length; i++) {
-            if(i < i1) {
+            if (i < i1) {
                 labels[i] = 0;
             } else {
                 labels[i] = 1;
@@ -181,10 +182,10 @@ public class SVMTrain {
 
 
     public static Mat getFeature(Mat inMat) {
-        
+
         Mat histogram = getHistogramFeatures(inMat);
         Mat color = getColorFeatures(inMat);
-        
+
         List<Mat> list = Lists.newArrayList();
         list.add(histogram);
         list.add(color);
@@ -245,7 +246,7 @@ public class SVMTrain {
 
         // 获取矩阵 img 的行数或列数，根据 direction 指定的方向确定 sz 的值。
         int sz = img.rows();
-        if(Direction.VERTICAL.equals(direction)) {
+        if (Direction.VERTICAL.equals(direction)) {
             sz = img.cols();
         }
 
