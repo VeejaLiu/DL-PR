@@ -22,6 +22,7 @@ import com.veeja.util.PlateUtil;
  * 基于org.opencv官方包实现的训练
  * 图片文字识别训练
  * 训练出来的库文件，用于识别图片中的中文字符
+ *
  * @author veeja
  */
 public class CnANNTrain {
@@ -42,8 +43,8 @@ public class CnANNTrain {
     public void train(int _predictsize, int _neurons) {
         Mat samples = new Mat(); // 使用push_back，行数列数不能赋初始值
         Vector<Integer> trainingLabels = new Vector<Integer>();
-        
-        Set<String> sampleDir = Sets.newHashSet();;
+
+        Set<String> sampleDir = Sets.newHashSet();
 
         // 加载汉字字符
         for (int i = 0; i < Constant.STR_CHINESE.length; i++) {
@@ -104,15 +105,15 @@ public class CnANNTrain {
         int correct = 0;
 
         Set<String> sampleDir = Sets.newHashSet();
-        
+
         // 遍历测试样本下的所有文件，计算预测准确率
         for (int i = 0; i < Constant.STR_CHINESE.length; i++) {
 
             String strChinese = Constant.STR_CHINESE[i];
             sampleDir.clear();
-             sampleDir.add(DEFAULT_PATH + "chars_blue_new/" + strChinese);
+            sampleDir.add(DEFAULT_PATH + "chars_blue_new/" + strChinese);
 
-            
+
             Vector<String> files = new Vector<String>();
             for (String str : sampleDir) {
                 FileUtil.getFiles(str, files);
@@ -148,7 +149,7 @@ public class CnANNTrain {
 
                 String result = Constant.STR_CHINESE[index];
 
-                if(result.equals(strChinese)) {
+                if (result.equals(strChinese)) {
                     correct++;
                 } else {
                     System.err.print(filePath);
@@ -162,27 +163,6 @@ public class CnANNTrain {
         System.out.print("\terror:" + (total - correct));
         System.out.println("\t计算准确率为：" + correct / (total * 1.0));
 
-        //预测结果：
-        //单字符100样本数    total:3230  correct:2725    error:505   计算准确率为：0.8436532507739938
-        //单字符200样本数    total:3230  correct:2889    error:341   计算准确率为：0.8944272445820434
-        //单字符300样本数    total:3230  correct:2943    error:287   计算准确率为：0.9111455108359133
-        //单字符400样本数    total:3230  correct:2937    error:293   计算准确率为：0.9092879256965944
-        //无随机样本               total:3230  correct:3050    error:180   计算准确率为：0.9442724458204335
-        //无随机，删除异常样本  total:3050  correct:2987    error:63    计算准确率为：0.979344262295082
-        //无随机，删除异常样本  total:2987  correct:2973    error:14    计算准确率为：0.9953130231001004
-        //无随机，删除异常样本  total:2987  correct:2932    error:55    计算准确率为：0.9815868764646802
-        //无随机，删除异常样本  total:2987  correct:2971    error:16    计算准确率为：0.9946434549715434
-
-        // 个人测试多次之后，得出结论：
-        // 1、每个字符下样本数量不一致，最多的299个样本，最少的不到10个样本；从测试结果来看，样本太少会影响预测结果
-        // 2、这里的训练跟测试的样本都是基于相同的样本文件，所以测试结果存在一定的局限性，仅供参考；
-        // 3、测试过程中，使用了随机样本，实际上发现重复样本对预测结果影响不大
-        // 4、中文字符分离出来之后，预测准确性要高很多
-        // 5、随机平移、随机旋转、膨胀、腐蚀，会增加样本数量，同时增加预测准确性
-        // 6、每次重新训练后，结果是不一致的，，没有重新训练，多次使用样本预测，结果是一致的
-        // 7、经过多次测试，这里的训练方案跟预测结果，准确率在90%左右
-        // 8、用于训练的样本，尽量要多一点，样本特征丰富一点，这样子可以提高准确性；但是用于预测的样本，要尽量规范、正常
-
         return;
     }
 
@@ -195,7 +175,7 @@ public class CnANNTrain {
         // 可根据需要训练不同的predictSize或者neurons的ANN模型
         // 根据机器的不同，训练时间不一样，但一般需要10分钟左右，所以慢慢等一会吧
         // 可以考虑中文，数字字母分开训练跟识别，提高准确性
-         annT.train(Constant.PREDICT_SIZE, Constant.NEURONS);
+        annT.train(Constant.PREDICT_SIZE, Constant.NEURONS);
 
         annT.predict();
 

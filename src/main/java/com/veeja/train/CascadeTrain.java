@@ -29,14 +29,15 @@ import com.veeja.util.ImageUtil;
 
 /**
  * 人脸识别训练、检测 (级联分类器)
- * 
+ * <p>
  * 训练自己的级联分类器 -- 调用opencv的exe应用程序
  * https://blog.csdn.net/dbzzcz/article/details/105517946
- *  官方教程地址：
- *  https://docs.opencv.org/master/dc/d88/tutorial_traincascade.html
- * 
+ * 官方教程地址：
+ * https://docs.opencv.org/master/dc/d88/tutorial_traincascade.html
+ * <p>
  * 获取opencv_traincascade.exe应用程序，官方下载3.4.1版本的安装包，解压出来即可找到
  * 或者加入 1054836232 Q群, 在群共享文件中获取应用程序安装包
+ *
  * @author veeja
  * @date 2020-09-15 12:32
  */
@@ -51,10 +52,9 @@ public class CascadeTrain {
 
     // 应用程序所在目录
     private static final String EXE_BASE_PATH = "D:/OpenCV/3.4.1/build/x64/vc14/bin/";
-    private static final String EXE_TRAINCASCADE= EXE_BASE_PATH  + "opencv_traincascade.exe";
-    private static final String EXE_CREATESAMPLES= EXE_BASE_PATH  + "opencv_createsamples.exe";
+    private static final String EXE_TRAINCASCADE = EXE_BASE_PATH + "opencv_traincascade.exe";
+    private static final String EXE_CREATESAMPLES = EXE_BASE_PATH + "opencv_createsamples.exe";
 
-    // 
     private static Integer width = 24;
     private static Integer height = 24;
 
@@ -109,13 +109,14 @@ public class CascadeTrain {
 
     /**
      * 加载样本文件
+     *
      * @param negative
      * @param positive
      */
     public static void loadSamples(String negative, String positive) {
         // 加载负样本
         File f = new File(negative);
-        File negInfoFile = new File( f.getParent().concat("/").concat(negInfo));
+        File negInfoFile = new File(f.getParent().concat("/").concat(negInfo));
         FileWriter fw;
         try {
             fw = new FileWriter(negInfoFile);
@@ -137,7 +138,7 @@ public class CascadeTrain {
             fw = new FileWriter(posInfoFile);
             BufferedWriter bw = new BufferedWriter(fw);
             for (File img : f.listFiles()) {
-                bw.write(f.getName() + "\\" +  img.getName() + " 1 0 0 " + width + " " + height); // 使用相对路径
+                bw.write(f.getName() + "\\" + img.getName() + " 1 0 0 " + width + " " + height); // 使用相对路径
                 bw.newLine();
             }
             bw.close();
@@ -164,8 +165,8 @@ public class CascadeTrain {
         // 训练结果文件路径
         String trainedModel = DEFAULT_PATH + "samples/data/cascade.xml";
         CascadeClassifier faceDetector = new CascadeClassifier(trainedModel);
-        Mat inMat = Imgcodecs.imread(DEFAULT_PATH+ "train/huge/huge.png");
-        String targetPath =  DEFAULT_PATH + "samples/result.jpg";
+        Mat inMat = Imgcodecs.imread(DEFAULT_PATH + "train/huge/huge.png");
+        String targetPath = DEFAULT_PATH + "samples/result.jpg";
 
         Boolean debug = false;
         Mat grey = new Mat();
@@ -189,9 +190,10 @@ public class CascadeTrain {
     /**
      * 从图片中，提取人脸图块(正样本)
      * 将图块处理为相同大小正样本文件，放到样本训练目录下
+     *
      * @param sourcePath 原图目录
      * @param targetPath 样本存放目录
-     * @param limit 提取样本数量
+     * @param limit      提取样本数量
      */
     public static void preparePosSamples(String sourcePath, String targetPath, Integer limit) {
         Vector<String> files = new Vector<String>();
@@ -200,7 +202,7 @@ public class CascadeTrain {
         int i = 0;
         for (String img : files) {
             Mat inMat = Imgcodecs.imread(img);
-            if(inMat.empty()) {
+            if (inMat.empty()) {
                 continue;
             }
             Mat gray = new Mat();
@@ -212,7 +214,7 @@ public class CascadeTrain {
                 // 截取人脸  灰度图
                 Mat face = new Mat();
                 Size size = new Size(rect.width, rect.height);
-                Point center = new Point(rect.x + rect.width/2, rect.y + rect.height/2);
+                Point center = new Point(rect.x + rect.width / 2, rect.y + rect.height / 2);
                 Imgproc.getRectSubPix(gray, size, center, face);
 
                 // resize 24*24
@@ -221,7 +223,7 @@ public class CascadeTrain {
                 // 保存文件
                 Imgcodecs.imwrite(targetPath + GenerateIdUtil.getId() + ".jpg", resized);
                 i++;
-                if(i >= limit) {
+                if (i >= limit) {
                     return;
                 }
             }
@@ -232,9 +234,10 @@ public class CascadeTrain {
 
     /**
      * 从图片中，随机提取负样本； 放到样本训练目录下
+     *
      * @param sourcePath 原图目录
      * @param targetPath 样本存放目录
-     * @param limit 提取样本数量
+     * @param limit      提取样本数量
      */
     public static void prepareNegSamples(String sourcePath, String targetPath, Integer limit) {
         Vector<String> files = new Vector<String>();
@@ -243,7 +246,7 @@ public class CascadeTrain {
         Random rd = new Random();
         for (String img : files) {
             Mat inMat = Imgcodecs.imread(img);
-            if(inMat.empty()) {
+            if (inMat.empty()) {
                 continue;
             }
             Mat gray = new Mat();
@@ -253,18 +256,17 @@ public class CascadeTrain {
             // 随机截取指定大小的图片，用作负样本
             Mat negMat = new Mat();
             Size size = new Size(width, height);
-            Point center = new Point(rd.nextInt(inMat.cols()- 101) + 100, rd.nextInt(inMat.rows()- 101) + 100);
+            Point center = new Point(rd.nextInt(inMat.cols() - 101) + 100, rd.nextInt(inMat.rows() - 101) + 100);
             Imgproc.getRectSubPix(gsMat, size, center, negMat);
             // 保存文件
             Imgcodecs.imwrite(targetPath + GenerateIdUtil.getId() + ".jpg", negMat);
             i++;
-            if(i >= limit) {
+            if (i >= limit) {
                 return;
             }
         }
         return;
     }
-
 
 
     public static void main(String[] args) {
@@ -279,7 +281,7 @@ public class CascadeTrain {
         do {
             // prepareNegSamples(sourcePath, targetPath, 400);
             i++;
-        } while (i<=100);
+        } while (i <= 100);
 
 
         String negative = DEFAULT_PATH + "samples\\negative\\";

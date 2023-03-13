@@ -23,12 +23,10 @@ import com.veeja.util.ImageUtil;
 
 /**
  * 车牌识别训练、检测 (级联分类器)
- * <p>
  * 训练自己的级联分类器 -- 调用opencv的exe应用程序
  * https://blog.csdn.net/dbzzcz/article/details/105517946
  * 官方教程地址：
  * https://docs.opencv.org/master/dc/d88/tutorial_traincascade.html
- * <p>
  * 获取opencv_traincascade.exe应用程序，官方下载3.4.1版本的安装包，解压出来即可找到
  *
  * @author veeja

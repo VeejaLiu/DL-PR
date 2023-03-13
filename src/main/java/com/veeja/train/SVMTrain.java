@@ -22,7 +22,7 @@ import com.veeja.util.GenerateIdUtil;
 
 /**
  * 基于org.opencv官方包实现的训练
- *
+ * <p>
  * 图片识别车牌训练
  * 训练出来的xml模型文件，用于判断切图是否是车牌
  *
