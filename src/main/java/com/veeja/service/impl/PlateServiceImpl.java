@@ -144,47 +144,58 @@ public class PlateServiceImpl implements PlateService {
 
 
     /**
-     * 单张图片 车牌识别
-     * 拷贝文件到临时目录
-     * 过程及结果更新数据库
-     *
-     * @param f
-     * @param e
-     * @return
+     * 识别车牌号
+     * @param file 车牌照片
+     * @param entity 车牌文件实体
+     * @return 1
      */
-    public Object doRecognise(File f, PlateFileEntity e) {
-        if (!f.exists()) {
+    public Object doRecognise(File file, PlateFileEntity entity) {
+        // 如果文件不存在，则返回 null
+        if (!file.exists()) {
             return null;
         }
 
+        // 生成一个不重复的字符串 id
         String ct = GenerateIdUtil.getStrId();
-        String targetPath = Constant.DEFAULT_TEMP_DIR + ct + (f.getName().substring(f.getName().lastIndexOf(".")));
+
+        // 设置目标路径
+        String targetPath = Constant.DEFAULT_TEMP_DIR + ct + (file.getName().substring(file.getName().lastIndexOf(".")));
         // 拷贝文件并且重命名
-        FileUtil.copyAndRename(f.getAbsolutePath(), targetPath);
+        FileUtil.copyAndRename(file.getAbsolutePath(), targetPath);
 
         // 创建临时目录， 存放过程图片
         String tempPath = Constant.DEFAULT_TEMP_DIR + ct + "/";
         FileUtil.createDir(tempPath);
-        e.setTempPath(tempPath);
+        entity.setTempPath(tempPath);
 
         Boolean debug = true;
+        // 存放车牌图块的 Vector
         Vector<Mat> dst = new Vector<Mat>();
 
         // 获取车牌号图块
         PlateUtil.getPlateMat(targetPath, dst, debug, tempPath);
 
+        // 存放识别出的车牌号
         Set<String> plates = Sets.newHashSet();
+        // 遍历车牌图块，识别车牌号
         dst.stream().forEach(inMat -> {
-            String plate = PlateUtil.charsSegment(inMat, PlateColor.BLUE, debug, tempPath);
+            // 车牌颜色
+            PlateColor plateColor = PlateColor.BLUE;
+            // 识别车牌号
+            String plate = PlateUtil.charsSegment(inMat, plateColor, debug, tempPath);
             if (plate != null) {
-                plates.add("<" + plate + "," + PlateColor.BLUE.desc + ">");
+                // 将识别出的车牌号添加进 Set
+                plates.add("<" + plate + "," + plateColor.desc + ">");
             }
         });
-        e.setRecoPlate(plates.toString());
+
+        // 将识别出的车牌号存入实体类中
+        entity.setRecoPlate(plates.toString());
 
         // 删除拷贝的临时文件
         new File(targetPath).delete();
-        plateFileMapper.updateByPrimaryKeySelective(e);
+        // 更新数据库中的实体类
+        plateFileMapper.updateByPrimaryKeySelective(entity);
         return 1;
     }
 
