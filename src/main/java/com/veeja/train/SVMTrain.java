@@ -197,25 +197,32 @@ public class SVMTrain {
 
 
     public static Mat getHistogramFeatures(Mat src) {
-        Mat img_grey = new Mat();
-        Imgproc.cvtColor(src, img_grey, Imgproc.COLOR_BGR2GRAY);
+        // 将输入图像转换为灰度图像
+        Mat imgGrey = new Mat();
+        Imgproc.cvtColor(src, imgGrey, Imgproc.COLOR_BGR2GRAY);
 
-        Mat img_threshold = new Mat();
-        Imgproc.threshold(img_grey, img_threshold, 0, 255, Imgproc.THRESH_OTSU + Imgproc.THRESH_BINARY);
+        // 对灰度图像进行二值化处理
+        Mat imgThreshold = new Mat();
+        Imgproc.threshold(imgGrey, imgThreshold, 0, 255, Imgproc.THRESH_OTSU + Imgproc.THRESH_BINARY);
 
-        // Histogram features
-        float[] vhist = projectedHistogram(img_threshold, Direction.VERTICAL);
-        float[] hhist = projectedHistogram(img_threshold, Direction.HORIZONTAL);
+        // 计算垂直投影直方图
+        float[] vhist = projectedHistogram(imgThreshold, Direction.VERTICAL);
+        // 计算水平投影直方图
+        float[] hhist = projectedHistogram(imgThreshold, Direction.HORIZONTAL);
 
-        // Last 10 is the number of moments components
+        // 计算特征向量的长度，等于垂直和水平投影直方图长度之和
         int numCols = vhist.length + hhist.length;
 
+        // 创建特征向量
         Mat features = Mat.zeros(1, numCols, CvType.CV_32F);
         int j = 0;
+
+        // 将垂直投影直方图添加到特征向量中
         for (int i = 0; i < vhist.length; i++) {
             features.put(0, j, vhist[i]);
             j++;
         }
+        // 将水平投影直方图添加到特征向量中
         for (int i = 0; i < hhist.length; i++) {
             features.put(0, j, hhist[i]);
             j++;
