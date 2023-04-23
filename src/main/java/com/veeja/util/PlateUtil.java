@@ -92,6 +92,8 @@ public class PlateUtil {
 
 
     /**
+     * 根据图片，获取可能是车牌的图块集合
+     *
      * @param imagePath
      * @param dst
      * @param debug
@@ -154,6 +156,8 @@ public class PlateUtil {
     }
 
     /**
+     * 通过HSV颜色空间，筛选出可能是车牌的图块
+     *
      * @param imagePath
      * @param dst
      * @param plateHSV
@@ -168,6 +172,8 @@ public class PlateUtil {
     }
 
     /**
+     * 通过HSV颜色空间，筛选出可能是车牌的图块
+     *
      * @param src      输入原图
      * @param inMat    调整尺寸后的图
      * @param dst      可能是车牌的图块集合
@@ -414,6 +420,8 @@ public class PlateUtil {
     }
 
     /**
+     * 垂直方向投影，错切校正
+     *
      * @param threshold
      * @param px
      * @param charCount
